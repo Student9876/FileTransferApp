@@ -13,14 +13,15 @@ using System.Text;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace FileTransfer
 {
     public partial class SenderFormInternet : Form
     {
         private TcpListener listener;
-        private const string RelayServerURL = "http://localhost:5000";
-
+        private const string RelayServerURL = "https://filetransferapp-relay-server.vercel.app/api/relay";
+        private CancellationTokenSource cts;
         public SenderFormInternet()
         {
             InitializeComponent();
@@ -39,7 +40,7 @@ namespace FileTransfer
             }
         }
 
-        private async void btnStartServer_Click(object sender, EventArgs e)
+        private async void BtnStartServer_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBox1.Text))
             {
@@ -55,6 +56,8 @@ namespace FileTransfer
 
             string filePath = textBox1.Text;
             IPAddress publicIp = await GetPublicIPAddress();
+            btnStartServer.Enabled = false;
+            cts = new CancellationTokenSource();
 
             if (publicIp == null)
             {
@@ -72,6 +75,7 @@ namespace FileTransfer
             }
 
             label3.Text = $"Waiting for receiver at {publicIp}:{port}\nConnection: {connectionCode}";
+            Console.WriteLine($"Connection: {connectionCode}");  
             listener = new TcpListener(IPAddress.Any, port);
             listener.Start();
 
@@ -114,6 +118,7 @@ namespace FileTransfer
             finally
             {
                 listener.Stop();
+                btnStartServer.Enabled = true;
             }
 
         }
@@ -152,5 +157,17 @@ namespace FileTransfer
                 return false;
             }
         }
+
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            cts?.Cancel();
+        }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            cts?.Cancel();
+            listener?.Stop();
+            base.OnFormClosing(e);
+        }
+
     }
 }

@@ -53,13 +53,19 @@ namespace FileTransfer
                     // Open Receiver Form as a modal dialog
                     using (ReceiverForm receiverForm = new ReceiverForm())
                     {
-                        receiverForm.ShowDialog(); // This will disable the main form until closed
+                        receiverForm.ShowDialog();
                     }
                 }
             } 
             else
             {
-                Console.WriteLine("Not implemented yet");
+                if (Application.OpenForms["ReceiverFormInternet"] == null)
+                {
+                    using (ReceiverFormInternet receiverFormInternet = new ReceiverFormInternet())
+                    {
+                        receiverFormInternet.ShowDialog();
+                    }
+                }
             }
         }
 

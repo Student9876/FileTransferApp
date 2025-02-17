@@ -1,16 +1,10 @@
-﻿namespace FileTransfer
+﻿using System.Drawing;
+
+namespace FileTransfer
 {
     partial class SenderFormInternet
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
-
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -32,6 +26,7 @@
             this.txtPort = new System.Windows.Forms.TextBox();
             this.btnStartServer = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox1
@@ -92,7 +87,7 @@
             this.btnStartServer.TabIndex = 6;
             this.btnStartServer.Text = "Start Server";
             this.btnStartServer.UseVisualStyleBackColor = true;
-            this.btnStartServer.Click += new System.EventHandler(this.btnStartServer_Click);
+            this.btnStartServer.Click += new System.EventHandler(this.BtnStartServer_Click);
             // 
             // label3
             // 
@@ -102,6 +97,15 @@
             this.label3.Size = new System.Drawing.Size(35, 13);
             this.label3.TabIndex = 7;
             this.label3.Text = "label3";
+            //
+            // btnCancel
+            //
+            this.btnCancel.Location = new Point(330, 90);
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
+            this.Controls.Add(btnCancel);
+
+
             // 
             // SendersForm
             // 
@@ -121,6 +125,7 @@
             this.ResumeLayout(false);
             this.PerformLayout();
 
+
         }
 
         private System.Windows.Forms.TextBox textBox1;
@@ -131,6 +136,7 @@
         private System.Windows.Forms.TextBox txtPort;
         private System.Windows.Forms.Button btnStartServer;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button btnCancel;
 
         #endregion
     }
